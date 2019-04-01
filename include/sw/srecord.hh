@@ -1162,6 +1162,12 @@ public:
   inline void merge()
   { merge(default_value()); }
 
+  inline void connect_adjacent()
+  { connect_adjacent_blocks(); }
+
+  inline void sort()
+  { reorder(blocks_); }
+
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc="find">
