@@ -1540,9 +1540,8 @@ private:
             return error(e_parse_mixed_data_line_types);
           }
           if((!blocks_.empty()) && (e.address == (blocks_.back().sadr() + blocks_.back().size()))) {
-            for(auto ee: e.bytes) {
-              blocks_.back().bytes().push_back(ee);
-            }
+            auto &last_block_bytes = blocks_.back().bytes();
+            last_block_bytes.insert(last_block_bytes.end(), e.bytes.begin(), e.bytes.end());
           } else {
             block_type block;
             block.sadr(e.address);
