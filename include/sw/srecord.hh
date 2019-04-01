@@ -699,7 +699,7 @@ public:
    * @param size_type data_line_length
    * @return bool
    */
-  bool compose(std::ostream& os, size_type data_line_length=0)
+  bool compose(std::ostream& os, size_type data_line_length=0, bool headers=true)
   {
     if(!good() || !validate()) {
       return false;
@@ -709,7 +709,7 @@ public:
       if(data_line_length > 64) data_line_length = 64;
     }
     // Header
-    {
+    if (headers) {
       std::deque<typename data_type::value_type> bin;
       for(auto e: header_) bin.push_back(e);
       while(bin.size() < 12) bin.push_back(0);
@@ -763,7 +763,7 @@ public:
       }
     }
     // Data line count
-    {
+    if (headers) {
       std::deque<typename data_type::value_type> bin;
       bin.push_front((line_data_count>>0) & 0xff);
       bin.push_front((line_data_count>>8) & 0xff);
@@ -778,7 +778,7 @@ public:
       os << s << std::endl;
     }
     // Start address (termination)
-    {
+    if (headers) {
       std::deque<typename data_type::value_type> bin;
       bin.push_front((start_address_>>0) & 0xff);
       bin.push_front((start_address_>>8) & 0xff);
