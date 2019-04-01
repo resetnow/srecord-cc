@@ -57,7 +57,10 @@
 
 namespace sw { namespace detail {
 
-template <typename ValueType, typename RandomAccessValueContainerType=std::vector<ValueType> >
+template <
+    typename ValueType,
+    typename RandomAccessValueContainerType=std::vector<ValueType>,
+    typename LineParserContainerType=std::deque<typename RandomAccessValueContainerType::value_type>>
 class basic_srecord
 {
 public:
@@ -1408,7 +1411,7 @@ private:
       return error(e_parse_invalid_line_length);
     } else {
       // HEX->blob
-      std::deque<typename data_type::value_type> bin;
+      LineParserContainerType bin;
       bin.push_back(line[1]-'0'); // S0 to S9 --> value 0 to 9.
       for(size_type i=2; i < line.length(); i+=2) {
         bin.push_back(0
